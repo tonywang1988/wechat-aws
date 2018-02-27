@@ -36,43 +36,47 @@ client.create_menu({
        }]
 })
 
- 
-@wechat.handler
-def hello(message):
-  return message.content 
-
 #text 修饰的 Handler 只处理文本消息
 @wechat.text
 def echo(message):
+    print "Recive Text:" + message.img
     return message.content
 
 #image 修饰的 Handler 只处理图片消息
 @wechat.image
 def image(message):
-    print message.img
-    return message.img
+    print "Recive Image:" + message.img
+    return message
 
+#voice 修饰的 Handler 只处理语音消息
+@wechat.voice
+def voice(message):
+    print "Recive Voice:" + message.recognition
+    return message.recognition
+    
+#location 修饰的 Handler 只处理语音消息
+@wechat.location
+def location(message):
+    return 'Hello My Friend!Location' + message.label
+    
 #subscribe 被关注 (Event)
 @wechat.subscribe
 def subscribe(message):
     return 'Hello My Friend!'
 
-#voice 修饰的 Handler 只处理语音消息
-@wechat.voice
-def voice(message):
-    return 'Hello My Friend!'
-
 #location_event 修饰的 Handler 只处理上报位置 (Event)
 @wechat.location_event
-def location(message):
+def location_event(message):
     return 'Location Success'
 
+#click 修饰的 Handler 只处理自定义菜单事件 (Event)
 @robot.click
-def abort(message):
-    if message.key == "Please upload picture.WarningWarningWarningWarningWarningWarning":
-        return "I'm a robot"
+def click(message):
+    if message.key == "Warning":
+        return "Uploading picture."
+    if message.key == "Weather":
+        return "Waiting for today's weather."
 
 
-wsddefef
 
 
