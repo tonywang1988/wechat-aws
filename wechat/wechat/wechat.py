@@ -70,7 +70,7 @@ def location_event(message):
     return 'Location Success'
 
 #click 修饰的 Handler 只处理自定义菜单事件 (Event)
-@robot.click
+@wechat.click
 def click(message):
     if message.key == "Warning":
         return "Uploading picture."
