@@ -36,6 +36,11 @@ client.create_menu({
        }]
 })
 
+# 通过修饰符添加handler
+@wechat.handler
+def echo(message):
+    return 'Hello World!'
+
 #text 修饰的 Handler 只处理文本消息
 @wechat.text
 def echo(message):
