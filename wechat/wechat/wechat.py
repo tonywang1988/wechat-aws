@@ -55,7 +55,7 @@ def echo(message):
 
     #return message.content
 
-    msg_obj = qrcode_models.ReqeustMessage.object.create(
+    msg_obj = qrcode_models.RequestMessage.objects.create(
         msg_id   = message.message_id,
         msg_type = message.type,
         msg_src  = message.source,
@@ -82,7 +82,7 @@ def image(message):
     #reply = ImageReply(message=message, media_id=media_resp['media_id'])
     #return reply 
 
-    msg_obj = qrcode_models.ReqeustMessage.object.create(
+    msg_obj = qrcode_models.RequestMessage.objects.create(
         msg_id   = message.message_id,
         msg_type = message.type,
         msg_src  = message.source,
@@ -98,7 +98,7 @@ def voice(message):
     print 'Recive Voice:' + message.media_id
     return message.recognition
 
-    msg_obj = qrcode_models.ReqeustMessage.object.create(
+    msg_obj = qrcode_models.RequestMessage.objects.create(
         msg_id   = message.message_id,
         msg_type = message.type,
         msg_src  = message.source,
