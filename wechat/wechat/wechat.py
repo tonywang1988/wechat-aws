@@ -1,5 +1,11 @@
 #coding=utf8
 from werobot import WeRoBot
+from urllib import urlretrieve
+from werobot.replies import ImageReply
+import json
+import logging
+
+logging.basicConfig()
 
 wechat = WeRoBot(enable_session=False,
                 token='awswechat',
@@ -44,24 +50,37 @@ def echo(message):
 #text 修饰的 Handler 只处理文本消息
 @wechat.text
 def echo(message):
-    print "Recive Text:" + message.img
+    print 'Recive Text:' + message.content
     return message.content
 
 #image 修饰的 Handler 只处理图片消息
 @wechat.image
 def image(message):
-    print "Recive Image:" + message.img
-    return message
+    print 'Recive Image:' + message.img
+    urlretrieve(message.img,'/home/ubuntu/wechat-aws/wechat/media_file.jpg') 
+    media_file = open('/home/ubuntu/wechat-aws/wechat/media_file.jpg')
+    print 'Download image as /home/ubuntu/wechat-aws/wechat/media_file for upload'   
+    media_resp = client.upload_media('image', media_file)
+    print 'Upload media id is '+media_resp['media_id'] 
+    
+    #{"type":"TYPE","media_id":"MEDIA_ID","created_at":123456789}
+    #media_dict = json.loads(media_resp)
+    #print 'Return media:'+media_dict
 
+    reply = ImageReply(message=message,
+                       media_id=media_resp['media_id'])
+    return reply 
+     
 #voice 修饰的 Handler 只处理语音消息
 @wechat.voice
 def voice(message):
-    print "Recive Voice:" + message.recognition
+    print 'Recive Voice:' + message.media_id
     return message.recognition
     
 #location 修饰的 Handler 只处理语音消息
 @wechat.location
 def location(message):
+    print 'Recive Location:'
     return 'Hello My Friend!Location' + message.label
     
 #subscribe 被关注 (Event)
@@ -72,14 +91,16 @@ def subscribe(message):
 #location_event 修饰的 Handler 只处理上报位置 (Event)
 @wechat.location_event
 def location_event(message):
-    return 'Location Success'
+    print 'Recive Location Event:'
+    return 'Location Success!' 
 
 #click 修饰的 Handler 只处理自定义菜单事件 (Event)
 @wechat.click
 def click(message):
-    if message.key == "Warning":
+    print 'Recive Menu Event:' + message.key
+    if message.key == "V1001_TODAY_WARNING":
         return "Uploading picture."
-    if message.key == "Weather":
+    if message.key == "V1001_TODAY_WEATHER":
         return "Waiting for today's weather."
 
 
