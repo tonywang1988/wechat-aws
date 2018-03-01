@@ -14,34 +14,34 @@ wechat = WeRoBot(enable_session=False,
                 APP_SECRET='682f69ee4068420fb11c74aaf3059b12')
 
 client = wechat.client
-client.create_menu({
-    "button":[
-        {
-            "type":"click",
-            "name":"Warning",
-            "key":"V1001_TODAY_WARNING"
-        },
-        {
-            "type":"click",
-            "name":"Weather",
-            "key":"V1001_TODAY_WEATHER"
-        },
-        {
-            "name":"Help",
-            "sub_button":[
-                {
-                    "type":"view",
-                    "name":"Home",
-                    "url":"http://www.shipxy.com"
-                },
-                {
-                    "type":"view",
-                    "name":"Service",
-                    "url":"http://www.cetc.com.cn"
-                }
-            ]
-       }]
-})
+##client.create_menu({
+##    "button":[
+##        {
+##            "type":"click",
+##            "name":"Warning",
+##            "key":"V1001_TODAY_WARNING"
+##        },
+##        {
+##            "type":"click",
+##            "name":"Weather",
+##            "key":"V1001_TODAY_WEATHER"
+##        },
+##        {
+##            "name":"Help",
+##            "sub_button":[
+##                {
+##                    "type":"view",
+##                    "name":"Home",
+##                    "url":"http://www.shipxy.com"
+##                },
+##                {
+##                    "type":"view",
+##                    "name":"Service",
+##                    "url":"http://www.cetc.com.cn"
+##                }
+##            ]
+##       }]
+##})
 
 # 通过修饰符添加handler
 @wechat.handler

@@ -16,8 +16,21 @@ def pullmessage(request):
     # 获取全部待转发的用户消息
     messages = qrcode_models.RequestMessage.objects.all()
 
+    msgindex = 0
+    msgarray = []
+    for item in messages :
+       dictitem = {}
+       dictitem['msg_id']   = item.msg_id
+       dictitem['msg_type'] = item.msg_type
+       dictitem['msg_src']  = item.msg_src
+       dictitem['msg_data'] = item.msg_data
+       dictitem['msg_url']  = item.msg_url
+
+       msgarray[msgindex] = dictitem
+       msgindex += 1
+
     # 序列化json字符串
-    jsonresp = json.dumps(list(messages),default=lambda obj: obj.__dict, sort_keys=True, indent=4)       
+    jsonresp = json.dumps(msgarray)       
 
     # 删除相关消息记录
     messages.delete()
