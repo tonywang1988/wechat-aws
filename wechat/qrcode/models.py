@@ -8,6 +8,7 @@ class RequestMessage(models.Model):
     msg_src  = models.CharField(max_length=64)    # 消息来源
     msg_data = models.CharField(max_length=1024)  # 消息内容   
     msg_url  = models.CharField(max_length=128)   # 消息资源-URL
+
     
 class ResponseMessage(models.Model):
     msg_id   = models.IntegerField()              # 消息ID
