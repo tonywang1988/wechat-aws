@@ -2,6 +2,7 @@
 from werobot import WeRoBot
 from urllib import urlretrieve
 from werobot.replies import ImageReply
+from qrcode import models as qrcode_models
 import json
 import logging
 
@@ -51,31 +52,60 @@ def echo(message):
 @wechat.text
 def echo(message):
     print 'Recive Text:' + message.content
-    return message.content
+
+    #return message.content
+
+    msg_obj = qrcode_models.ReqeustMessage.object.create(
+        msg_id   = message.message_id,
+        msg_type = message.type,
+        msg_src  = message.source,
+        msg_data = message.content,
+        msg_url  = '')
+    msg_obj.save() 
+    return 'Text['+message.content+'] Processing ...'
 
 #image 修饰的 Handler 只处理图片消息
 @wechat.image
 def image(message):
     print 'Recive Image:' + message.img
-    urlretrieve(message.img,'/home/ubuntu/wechat-aws/wechat/media_file.jpg') 
-    media_file = open('/home/ubuntu/wechat-aws/wechat/media_file.jpg')
-    print 'Download image as /home/ubuntu/wechat-aws/wechat/media_file for upload'   
-    media_resp = client.upload_media('image', media_file)
-    print 'Upload media id is '+media_resp['media_id'] 
+
+    #下载文件并上传资源，重新返回
+    #urlretrieve(message.img,'/home/ubuntu/wechat-aws/wechat/media_file.jpg') 
+    #media_file = open('/home/ubuntu/wechat-aws/wechat/media_file.jpg')
+    #print 'Download image as /home/ubuntu/wechat-aws/wechat/media_file for upload'   
+    #media_resp = client.upload_media('image', media_file)
+    #print 'Upload media id is '+media_resp['media_id'] 
     
-    #{"type":"TYPE","media_id":"MEDIA_ID","created_at":123456789}
+    #应答格式{"type":"TYPE","media_id":"MEDIA_ID","created_at":123456789}
     #media_dict = json.loads(media_resp)
     #print 'Return media:'+media_dict
+    #reply = ImageReply(message=message, media_id=media_resp['media_id'])
+    #return reply 
 
-    reply = ImageReply(message=message,
-                       media_id=media_resp['media_id'])
-    return reply 
+    msg_obj = qrcode_models.ReqeustMessage.object.create(
+        msg_id   = message.message_id,
+        msg_type = message.type,
+        msg_src  = message.source,
+        msg_data = message.img,
+        msg_url  = message.img)
+    msg_obj.save()
+    return 'Image[' + message.message_id + '] Processing ...'
+
      
 #voice 修饰的 Handler 只处理语音消息
 @wechat.voice
 def voice(message):
     print 'Recive Voice:' + message.media_id
     return message.recognition
+
+    msg_obj = qrcode_models.ReqeustMessage.object.create(
+        msg_id   = message.message_id,
+        msg_type = message.type,
+        msg_src  = message.source,
+        msg_data = message.recognition,
+        msg_url  = message.media_id)
+    msg_obj.save()
+    return 'Voice[' + message.recognition + '] Processing...'
     
 #location 修饰的 Handler 只处理语音消息
 @wechat.location
@@ -99,9 +129,9 @@ def location_event(message):
 def click(message):
     print 'Recive Menu Event:' + message.key
     if message.key == "V1001_TODAY_WARNING":
-        return "Uploading picture."
+        return "Please Uploading Picture..."
     if message.key == "V1001_TODAY_WEATHER":
-        return "Waiting for today's weather."
+        return "Waiting For Weather Report..."
 
 
 
