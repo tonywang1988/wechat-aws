@@ -17,7 +17,7 @@ def pullmessage(request):
     messages = qrcode_models.RequestMessage.objects.all()
 
     # 序列化json字符串
-    jsonresp = json.dumps(list(messages),default=lambda obj: obj.__dict, sort_keys=True, indent=4)       
+    jsonresp = json.dumps(list(messages),default=lambda obj: obj.__dict__, sort_keys=True, indent=4)       
 
     # 删除相关消息记录
     messages.delete()
