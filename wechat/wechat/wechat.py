@@ -14,34 +14,34 @@ wechat = WeRoBot(enable_session=False,
                 APP_SECRET='682f69ee4068420fb11c74aaf3059b12')
 
 client = wechat.client
-client.create_menu({
-    "button":[
-        {
-            "type":"click",
-            "name":"Warning",
-            "key":"V1001_TODAY_WARNING"
-        },
-        {
-            "type":"click",
-            "name":"Weather",
-            "key":"V1001_TODAY_WEATHER"
-        },
-        {
-            "name":"Help",
-            "sub_button":[
-                {
-                    "type":"view",
-                    "name":"Home",
-                    "url":"http://www.shipxy.com"
-                },
-                {
-                    "type":"view",
-                    "name":"Service",
-                    "url":"http://www.cetc.com.cn"
-                }
-            ]
-       }]
-})
+##client.create_menu({
+##    "button":[
+##        {
+##            "type":"click",
+##            "name":"Warning",
+##            "key":"V1001_TODAY_WARNING"
+##        },
+##        {
+##            "type":"click",
+##            "name":"Weather",
+##            "key":"V1001_TODAY_WEATHER"
+##        },
+##        {
+##            "name":"Help",
+##            "sub_button":[
+##                {
+##                    "type":"view",
+##                    "name":"Home",
+##                    "url":"http://www.shipxy.com"
+##                },
+##                {
+##                    "type":"view",
+##                    "name":"Service",
+##                    "url":"http://www.cetc.com.cn"
+##                }
+##            ]
+##       }]
+##})
 
 # 通过修饰符添加handler
 @wechat.handler
@@ -89,14 +89,14 @@ def image(message):
         msg_data = message.img,
         msg_url  = message.img)
     msg_obj.save()
-    return 'Image[' + message.message_id + '] Processing ...'
+    return 'Image[' + message.img + '] Processing ...'
 
      
 #voice 修饰的 Handler 只处理语音消息
 @wechat.voice
 def voice(message):
     print 'Recive Voice:' + message.media_id
-    return message.recognition
+    #return message.recognition
 
     msg_obj = qrcode_models.RequestMessage.objects.create(
         msg_id   = message.message_id,
